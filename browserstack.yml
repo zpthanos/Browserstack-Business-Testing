@@ -24,7 +24,7 @@ platforms:
 
 parallelsPerPlatform: 1
 browserstackLocal: false
-projectName: browserstack-business-starter
+projectName: browserstack-business-testing
 buildName: cross-browser-tests
 buildIdentifier: local
 

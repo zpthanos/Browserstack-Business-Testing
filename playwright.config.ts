@@ -6,7 +6,7 @@ const environment = getTestEnvironment();
 
 export default defineConfig({
   testDir: './tests',
-  testIgnore: ['**/config/**', '**/*.template.spec.ts'],
+  testIgnore: ['**/config/**'],
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
