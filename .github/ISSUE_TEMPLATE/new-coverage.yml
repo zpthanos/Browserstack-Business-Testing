@@ -1,0 +1,40 @@
+name: New test coverage
+description: Propose automation for a business risk or customer journey
+title: '[coverage] '
+labels: [test-coverage]
+body:
+  - type: input
+    id: journey
+    attributes:
+      label: Journey or requirement
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: Business risk and expected outcome
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Proposed tier
+      options:
+        - Critical
+        - Smoke
+        - Regression
+        - Exploratory or not yet decided
+    validations:
+      required: true
+  - type: textarea
+    id: platforms
+    attributes:
+      label: Required platforms and supporting evidence
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Test data, accounts, dependencies, and security considerations
+    validations:
+      required: true

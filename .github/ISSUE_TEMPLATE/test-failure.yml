@@ -1,0 +1,51 @@
+name: Test failure
+description: Report and classify a failing automated test
+title: '[test-failure] '
+labels: [test-failure, triage]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, cookies, personal data, or sensitive screenshots.
+  - type: input
+    id: test
+    attributes:
+      label: Test name
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: BrowserStack build or sanitized session link
+    validations:
+      required: true
+  - type: dropdown
+    id: classification
+    attributes:
+      label: Initial classification
+      options:
+        - Product defect
+        - Test defect
+        - Environment or data
+        - BrowserStack or platform
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence and reproduction
+      description: Include platform, UTC time, first meaningful error, and reproduction result.
+    validations:
+      required: true
+  - type: input
+    id: impact
+    attributes:
+      label: Business or release impact
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Proposed owner
+    validations:
+      required: true

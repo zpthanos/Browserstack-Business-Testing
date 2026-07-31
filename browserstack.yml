@@ -1,0 +1,34 @@
+# Credentials are intentionally omitted. The SDK reads BROWSERSTACK_USERNAME
+# and BROWSERSTACK_ACCESS_KEY from the environment.
+framework: playwright
+
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: chrome
+    browserVersion: latest
+    playwrightConfigOptions:
+      name: chrome-latest-windows-11
+  - os: OS X
+    osVersion: Ventura
+    browserName: playwright-webkit
+    browserVersion: latest
+    playwrightConfigOptions:
+      name: webkit-latest-macos-ventura
+  - os: Windows
+    osVersion: 11
+    browserName: playwright-firefox
+    browserVersion: latest
+    playwrightConfigOptions:
+      name: firefox-latest-windows-11
+
+parallelsPerPlatform: 1
+browserstackLocal: false
+projectName: browserstack-business-starter
+buildName: cross-browser-tests
+buildIdentifier: local
+
+testObservability: true
+networkLogs: true
+consoleLogs: errors
+selfHeal: false
