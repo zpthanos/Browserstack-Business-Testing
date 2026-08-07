@@ -28,9 +28,9 @@
   "devDependencies": {
     "@playwright/test": "1.62.1",
     "@types/node": "26.1.2",
-    "browserstack-node-sdk": "1.65.0",
+    "browserstack-node-sdk": "1.65.2",
     "prettier": "3.9.6",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "yaml": "2.9.0"
   }
 }
