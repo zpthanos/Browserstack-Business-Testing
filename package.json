@@ -31,6 +31,6 @@
     "browserstack-node-sdk": "1.65.0",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
-    "yaml": "2.9.0"
+    "yaml": "2.9.1"
   }
 }
