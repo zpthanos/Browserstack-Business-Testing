@@ -5,6 +5,8 @@ A GitHub-ready foundation for teams starting automated cross-browser testing wit
 working sample tests, a three-platform BrowserStack matrix, local and CI commands, secure
 credential handling, GitHub Actions, reporting, and business adoption documentation.
 
+> **Evidence boundary:** the active suite contains two generic homepage availability checks. Local repository validation does not prove BrowserStack execution, cross-browser compatibility, or business-journey coverage. Treat the matrix as configured scaffolding until a successful public workflow run is linked here.
+
 ## What is included
 
 - TypeScript + Playwright test code with fixtures and page objects
