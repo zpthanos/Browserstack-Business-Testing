@@ -1,8 +1,8 @@
 {
-  "name": "browserstack-business-starter",
+  "name": "browserstack-business-testing",
   "version": "1.0.0",
   "private": true,
-  "description": "Business-ready Playwright test starter for BrowserStack Automate",
+  "description": "BrowserStack Playwright portfolio suite with a configurable WooCommerce business journey",
   "license": "MIT",
   "type": "module",
   "engines": {

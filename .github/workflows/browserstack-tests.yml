@@ -6,7 +6,7 @@ on:
       target_url:
         description: Absolute URL of the application under test
         required: true
-        default: https://bstackdemo.com
+        default: https://cms.demo.katalon.com
         type: string
       suite:
         description: Test scope

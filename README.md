@@ -1,151 +1,96 @@
-# BrowserStack Business Testing Starter
+# BrowserStack Business Testing
 
-A GitHub-ready foundation for teams starting automated cross-browser testing with
-[BrowserStack Automate](https://www.browserstack.com/automate) and Playwright. It includes
-working sample tests, a three-platform BrowserStack matrix, local and CI commands, secure
-credential handling, GitHub Actions, reporting, and business adoption documentation.
+[![Repository quality](https://github.com/zpthanos/Browserstack-Business-Testing/actions/workflows/quality.yml/badge.svg)](https://github.com/zpthanos/Browserstack-Business-Testing/actions/workflows/quality.yml)
+[![BrowserStack tests](https://github.com/zpthanos/Browserstack-Business-Testing/actions/workflows/browserstack-tests.yml/badge.svg)](https://github.com/zpthanos/Browserstack-Business-Testing/actions/workflows/browserstack-tests.yml)
 
-## What is included
+A Playwright portfolio suite that runs a configurable WooCommerce business journey through BrowserStack Automate. It also includes a small homepage availability check, repository contract tests, CI reporting, and operational documentation.
 
-- TypeScript + Playwright test code with fixtures and page objects
-- Chrome on Windows 11, Playwright WebKit on macOS Ventura, and Playwright Firefox on
-  Windows 11
-- BrowserStack SDK integration and optional BrowserStack Local tunnel
-- Manual GitHub Actions workflow with target URL and suite selection
-- HTML, JUnit, trace, screenshot, and video artifacts
-- Security, governance, test-planning, release-gate, and incident runbooks
-- Dependabot, pull-request template, and issue templates
+## Active business evidence
 
-This starter covers web application testing with BrowserStack Automate. Native mobile app
-testing requires an Appium/App Automate extension and is intentionally outside this repository's
-default scope.
+The `@critical @regression` journey performs real storefront behavior:
 
-## Five-minute quick start
+1. Open a configured, in-stock WooCommerce product.
+2. Assert the product page response and product heading.
+3. Add the product to the cart.
+4. Verify the product and quantity in the cart.
+5. Continue to checkout.
+6. Fill synthetic billing data using the reserved `example.com` domain.
+7. Verify the order review and enabled **Place order** control.
+8. Attach a full-page checkout screenshot to the Playwright report.
+9. Stop before payment or order creation and assert that no order-confirmation URL is reached.
 
-### 1. Install
+This replaces the previous skipped copy-a-template example; the repository now contains an active business test.
 
-Requirements: Node.js 22 or newer and npm.
+## Browser matrix
+
+`browserstack.yml` runs the same active tests on:
+
+- Chrome latest on Windows 11
+- Playwright WebKit latest on macOS Ventura
+- Playwright Firefox latest on Windows 11
+
+Credentials are never stored in the file. The BrowserStack SDK reads `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` from the environment.
+
+## Local validation
+
+Requirements: Node.js 22+ and npm.
 
 ```bash
 npm ci
-npx playwright install chromium
+npm run validate
 ```
 
-### 2. Run locally
+`validate` runs strict TypeScript checks, configuration/credential-safety tests, test discovery, required-document checks, and formatting checks. It does not consume a BrowserStack session.
 
-The default target is BrowserStack's public demo site.
+To execute locally after installing a Playwright browser:
 
 ```bash
+npx playwright install chromium
 npm run test:local
 ```
 
-To test your own site:
+## Configure a WooCommerce target
 
 ```bash
-APP_BASE_URL="https://staging.example.com" npm run test:local
+export APP_BASE_URL="https://shop.example.test"
+export WOOCOMMERCE_PRODUCT_PATH="/product/example-product/"
+export WOOCOMMERCE_PRODUCT_NAME="Example Product"
 ```
 
-### 3. Run on BrowserStack
+The target must use a classic WooCommerce product/cart/checkout flow, and the configured product must be simple, in stock, and addable without selecting variations.
 
-Get your username and access key from your BrowserStack account. Keep both values out of source
-control.
+## Run on BrowserStack
 
 ```bash
 export BROWSERSTACK_USERNAME="your_username"
 export BROWSERSTACK_ACCESS_KEY="your_access_key"
-export APP_BASE_URL="https://staging.example.com"
 npm run test:browserstack
 ```
 
-Results appear in the
-[BrowserStack Automate dashboard](https://automate.browserstack.com/dashboard/v2).
-
-### 4. Validate before a pull request
-
-```bash
-npm run validate
-```
-
-Validation checks types, configuration safety, test discovery, required documentation, and
-formatting. It does not consume BrowserStack sessions.
-
-## Common commands
-
-| Command                                       | Purpose                                              |
-| --------------------------------------------- | ---------------------------------------------------- |
-| `npm run test:local`                          | Run all active tests on a local Chromium browser     |
-| `npm run test:smoke`                          | Run tests tagged `@smoke` locally                    |
-| `npm run test:regression`                     | Run tests tagged `@regression` locally               |
-| `npm run test:browserstack`                   | Run active tests across `browserstack.yml` platforms |
-| `npm run config:browserstack -- --local=true` | Enable SDK-managed BrowserStack Local                |
-| `npm run validate`                            | Run repository checks without a cloud session        |
-| `npm run format`                              | Format code, YAML, and Markdown                      |
-
-BrowserStack test filtering uses standard Playwright arguments. For example:
+Common scopes:
 
 ```bash
 npm run test:browserstack -- --grep @smoke
+npm run test:browserstack -- --grep @regression
+npm run test:browserstack -- --grep @critical
 ```
 
-## Configuration
+The manual GitHub Actions workflow accepts a target URL, suite, and BrowserStack Local option. It uploads HTML reports, JUnit output, screenshots, traces, and failure video for 14 days.
 
-| Variable                  | Required   | Default                            | Meaning                       |
-| ------------------------- | ---------- | ---------------------------------- | ----------------------------- |
-| `APP_BASE_URL`            | No         | `https://bstackdemo.com`           | Application under test        |
-| `EXPECTED_TITLE_PATTERN`  | No         | `StackDemo` only in `.env.example` | Case-insensitive title regex  |
-| `BROWSERSTACK_USERNAME`   | Cloud only | none                               | BrowserStack account username |
-| `BROWSERSTACK_ACCESS_KEY` | Cloud only | none                               | BrowserStack access key       |
+## Evidence and limitations
 
-`browserstack.yml` controls platforms, concurrency, Local Testing, logging, project, and build
-grouping. Start with one parallel per platform, confirm account capacity, and increase deliberately.
+The two badges report the current workflow state; they are not hard-coded claims. Reviewers should open the BrowserStack workflow run and inspect its uploaded checkout screenshot and report. A cloud run requires repository secrets and therefore is intentionally manual.
 
-For a private or localhost target:
+The suite does not place an order, exercise payment, or claim complete WooCommerce coverage. A public demo target can change without notice.
 
-```bash
-npm run config:browserstack -- --local=true
-export APP_BASE_URL="http://localhost:3000"
-npm run test:browserstack
-```
+## Documentation
 
-The BrowserStack SDK starts and stops the Local tunnel. Set `--local=false` when returning to a
-public target. See [TEST_OPERATIONS_RUNBOOK.md](docs/TEST_OPERATIONS_RUNBOOK.md) for proxies,
-firewalls, and failure triage.
+- [Business readiness guide](docs/BUSINESS_READINESS_GUIDE.md)
+- [GitHub setup](docs/GITHUB_SETUP.md)
+- [Test operations runbook](docs/TEST_OPERATIONS_RUNBOOK.md)
+- [Security and compliance](docs/SECURITY_AND_COMPLIANCE.md)
+- [Test plan](docs/TEST_PLAN_TEMPLATE.md)
+- [Go-live checklist](docs/GO_LIVE_CHECKLIST.md)
+- [Contributing](CONTRIBUTING.md)
 
-## Add a real business journey
-
-1. Copy `tests/templates/business-flow.template.spec.ts` into `tests/e2e/`.
-2. Rename it for the journey, remove the unconditional `test.skip`, and replace the example steps.
-3. Keep credentials and personal data in a secret manager or CI environment secrets.
-4. Prefer locators by role, label, or test ID.
-5. Assert the business outcome, such as order creation or account state, rather than only UI clicks.
-6. Add `@smoke`, `@critical`, or `@regression` to the test title.
-
-## GitHub setup
-
-Unzip this package, commit the extracted contents, then follow
-[GITHUB_SETUP.md](docs/GITHUB_SETUP.md). GitHub does not unpack a ZIP into repository files when
-the ZIP itself is committed.
-
-## Documentation map
-
-| Document                                                     | Audience                 | Purpose                                           |
-| ------------------------------------------------------------ | ------------------------ | ------------------------------------------------- |
-| [Business readiness guide](docs/BUSINESS_READINESS_GUIDE.md) | Sponsors, product, QA    | Ownership, entry criteria, metrics, rollout       |
-| [GitHub setup](docs/GITHUB_SETUP.md)                         | Repository admins        | Create repository, secrets, environments, Actions |
-| [Test operations runbook](docs/TEST_OPERATIONS_RUNBOOK.md)   | QA, engineering, support | Execute, inspect, triage, escalate                |
-| [Security and compliance](docs/SECURITY_AND_COMPLIANCE.md)   | Security, privacy, QA    | Secrets, test data, logs, retention               |
-| [Test plan template](docs/TEST_PLAN_TEMPLATE.md)             | QA leads, product        | Scope, risks, coverage, release gate              |
-| [Go-live checklist](docs/GO_LIVE_CHECKLIST.md)               | Release owners           | Final readiness and sign-off                      |
-| [Contributing](CONTRIBUTING.md)                              | Contributors             | Branch, test, and review standards                |
-
-## Source guidance
-
-The integration follows BrowserStack's current official guidance for the
-[Playwright Node.js SDK](https://www.browserstack.com/docs/automate/playwright/getting-started/nodejs/integrate-your-tests),
-[supported Playwright browsers and operating systems](https://www.browserstack.com/docs/automate/playwright/browsers-and-os),
-[Local Testing](https://www.browserstack.com/docs/automate/playwright/getting-started/nodejs/local-testing),
-and [GitHub Actions](https://www.browserstack.com/docs/automate/playwright/github-actions).
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+MIT licensed. See [LICENSE](LICENSE).
